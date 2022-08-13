@@ -2,7 +2,27 @@ import os
 import json
 from lib.helpers import get_browsers_titles
 
+def get_chromium_profiles_path(browser, path):
+    browser_titles = get_browsers_titles('chromium')
 
+    name = browser['name']
+    icon = browser['icon']
+    title = browser_titles[name]
+
+    profiles = []
+
+    if os.path.isdir(path) == False:
+        return profiles
+
+    folders = [name for name in os.listdir(path) if os.path.isdir(os.path.join(path, name))]
+
+    list_profiles = []
+    for folder in folders:
+        file = "{}/{}/Preferences".format(path, folder)
+        if folder != 'System Profile' and os.path.isfile(file):
+            list_profiles.append(file)
+    return list_profiles
+    
 def get_chromium_profiles(browser, path):
     browser_titles = get_browsers_titles('chromium')
 
